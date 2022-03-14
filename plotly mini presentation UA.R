@@ -61,11 +61,14 @@ p <- p + scale_color_brewer(palette="Set2")+
 p
 ggsave("CAF.png", plot = p, dpi = 700)
 
+#' # ggplotly
 (intplt<- ggplotly(p, tooltip = c('x',"y","group")))
-
+#' ## saving as html object
 saveWidget(intplt, "ggplotlyeg.html", selfcontained = F, libdir = "lib/")
 
 
+
+#' # some plot_ly fun stuff and examples
 dens <- with(diamonds, tapply(price, INDEX = cut, density))
 data <- data.frame(
   x = unlist(lapply(dens, "[[", "x")),
