@@ -2,7 +2,7 @@
 #' title: "Plotly demonstration/mini presentation"
 #' author: 'Udi Alter'
 #' date: March 14 2022
-#' output: md_document
+#' output: html_document
 #' ---
 
 
@@ -54,7 +54,7 @@ p<-ggplot(df1,aes(x=year, y=promoted, group=sex)) +
   #hrbrthemes::theme_ft_rc()+
   theme(axis.text.x = element_text(angle=45,vjust = 1, hjust=1))
 
-p <- p + scale_color_brewer(palette="Pastel3")+
+p <- p + scale_color_brewer(palette="Set2")+
   ggtitle("Canadian Armed Forces Officer Promotions by Sex")+
   labs(x = "Year", y="Number of personnel promoted",size=3)
 
@@ -87,7 +87,7 @@ fig <- fig %>% add_markers()
 fig <- fig %>% layout(scene = list(xaxis = list(title = 'Weight'),
                                    yaxis = list(title = 'Gross horsepower'),
                                    zaxis = list(title = '1/4 mile time')))
-
+fig
 dd <- sample_n(diamonds, size = 100)
 
 #colors = c('#BF382A', '#0C4B8E', '#6699ff', '#5a3634', '#330055')
