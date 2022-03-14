@@ -1,3 +1,12 @@
+#' ---
+#' title: "Plotly demonstration/mini presentation"
+#' author: 'Udi Alter'
+#' date: March 14 2022
+#' output: md_document
+#' ---
+
+
+#+ echo=FALSE
 library(tidyverse)
 library(readxl)
 library(viridis)
@@ -8,38 +17,41 @@ library(readr)
 library(extrafont)
 library(plotly)
 
-install.packages("extrafontdb")  # reset fonttable
+#install.packages("extrafontdb")  # reset fonttable
 
-devtools::install_github("hrbrmstr/hrbrthemes", force = TRUE)
+#devtools::install_github("hrbrmstr/hrbrthemes", force = TRUE)
 extrafont::loadfonts()
 hrbrthemes::import_roboto_condensed()
 
-#' Data adapted from https://open.canada.ca/data/en/dataset/89b12d0b-e844-4470-8123-bd062d27be0b
+
+#' ## Import data from Github
 df <- read.csv("https://raw.githubusercontent.com/udialter/intro-to-plotly/main/promotions.csv")
-
+#' Data adapted from https://open.canada.ca/data/en/dataset/89b12d0b-e844-4470-8123-bd062d27be0b
 head(df)
-
+#' ## renaming variables for convenience 
 df <- df %>%
   rename(Year = 'Fiscal.Year', Female_Promoted = 'Female.NCMs.Promoted', Male_Promoted = 'Male.NCMs.Promoted', Total_promotions = 'Total.NCM.Promotions')
 str(df)
+#' ## data organizing and restructuring
 year <- df$Year
 sexf <- rep('Females', nrow(df))
 sexm <- rep('Males', nrow(df))
 sext <- rep('Total', nrow(df))
-
 fp <- data.frame(year,df$Female_Promoted, sexf) %>% rename(promoted = df.Female_Promoted, sex= sexf)
 mp <- data.frame(year,df$Male_Promoted,sexm )%>% rename(promoted = df.Male_Promoted, sex= sexm)
 tp <- data.frame(year,df$Total_promotions,sext )%>% rename(promoted = df.Total_promotions,sex =sext)
 
-
+#' ## New data now called df1, year and sex are set as factors
 df1 <- rbind(fp,mp,tp)
 df1$year <- factor(df1$year)
 df1$sex <- factor(df1$sex)
 
+#' ## first, creating a ggplot2 object. If issues arise with the font roboto or and error message mentioning polygon (usually in macs), 
+#' you can # or delete the  hrbrthemes::theme_ft_rc()+ line below (line 45)
 p<-ggplot(df1,aes(x=year, y=promoted, group=sex)) +
   geom_line(aes(color=sex), size=1.5)+
   geom_point(aes(color=sex),size = 3)+
-  hrbrthemes::theme_ft_rc()+
+  #hrbrthemes::theme_ft_rc()+
   theme(axis.text.x = element_text(angle=45,vjust = 1, hjust=1))
 
 p <- p + scale_color_brewer(palette="Pastel3")+
