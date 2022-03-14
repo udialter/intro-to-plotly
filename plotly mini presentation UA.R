@@ -79,29 +79,40 @@ fig <- plot_ly(data, x = ~x, y = ~y, z = ~cut, type = 'scatter3d', mode = "lines
 
 fig
 
+
+
+# MINI PRESENTATION: DEMONSTRATION 
 mtcars$am[which(mtcars$am == 0)] <- 'Automatic'
 mtcars$am[which(mtcars$am == 1)] <- 'Manual'
 mtcars$am <- as.factor(mtcars$am)
 
-diamonds
 
-fig <- plot_ly(mtcars, x = ~wt, y = ~hp, z = ~qsec, color = ~am, colors = c('#BF382A', '#0C4B8E'))
-fig <- fig %>% add_markers()
+fig <- plot_ly(mtcars, x = ~wt, y = ~hp, z = ~qsec, color = ~am, 
+               colors = c('#BF382A', '#0C4B8E'))
+fig <- fig %>% add_markers(hovertemplate = paste('<b>weight</b>: %{x:.2f}',
+                                                 '<br><b>horse power</b>: %{y}<br>',
+                                                 '<b>1/4mile/g</b>: %{z}<br>'))
 fig <- fig %>% layout(scene = list(xaxis = list(title = 'Weight'),
                                    yaxis = list(title = 'Gross horsepower'),
                                    zaxis = list(title = '1/4 mile time')))
 fig
-dd <- sample_n(diamonds, size = 100)
 
-#colors = c('#BF382A', '#0C4B8E', '#6699ff', '#5a3634', '#330055')
+# Diamonds 3D scatter plot
+library(plotly)
+library(htmlwidgets)
+dd <- sample_n(diamonds, size = 50)
 figd <- plot_ly(dd, x = ~carat, y = ~price, z = ~depth, color = ~cut)
-figd <- figd %>% add_markers()
+figd <- figd %>% add_markers(hovertemplate = paste('<b>Price</b>: $%{y:.2f}',
+                                                   '<br><b>Carat</b>: %{x}<br>',
+                                                   '<b>Diamond Depth</b>: %{z}<br>'))
 figd <- figd %>% layout(scene = list(xaxis = list(title = 'Carat'),
                                    yaxis = list(title = 'Price'),
                                    zaxis = list(title = 'Depth')))
 
 figd
 
+
+#' #Spiral
 count <- 3000
 
 x <- c()
